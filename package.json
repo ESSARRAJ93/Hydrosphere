@@ -1,0 +1,22 @@
+{
+  "name": "hydrosphere",
+  "version": "1.0.0",
+  "description": "hydrosphere is a system management for drinking water of assocciations.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "npx electronmon . --trace-warnings .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "application",
+    "electronjs",
+    "reactjs",
+    "hydrosphere"
+  ],
+  "author": "@dinotrex",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.2.1"
+  }
+}
