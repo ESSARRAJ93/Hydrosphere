@@ -1,20 +1,33 @@
-const { app, BrowserWindow } = require('electron/main')
-const url = require('url')
-const path = require('path')
+const { app, BrowserWindow, ipcMain } = require('electron/main')
+const path = require('node:path')
 
-function createMainWindow() {
+const createWindow = () => {
   const win = new BrowserWindow({
-    title: "Hydrosphere",
-    width: 800,
-    height: 600
+    minWidth: 800,
+    minHeight: 400,
+    width: 1200,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
 
-  const uri = url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file'
-  })
-
-  win.loadURL(uri);
+  win.loadURL('http://localhost:5173/')
 }
 
-app.whenReady().then(createMainWindow)
+app.whenReady().then(() => {
+  ipcMain.handle('ping', () => 'pong')
+  createWindow()
+
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow()
+    }
+  })
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
